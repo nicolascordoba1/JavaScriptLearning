@@ -8,7 +8,6 @@ const updateUI = (data)=>{
 
     const cityDets = data.cityDets;
     const weather = data.weather;
-    console.log(weather)
 
     //update details template
 
@@ -27,13 +26,15 @@ const updateUI = (data)=>{
 
     // update day/night & icon images
 
-    let timeSrc = null;
+    let timeSrc = weather.IsDayTime? 'img/day.svg':'img/night.svg';
+
+/*     let timeSrc = null;
     if(weather.IsDayTime){
         timeSrc = 'img/day.svg';
     } else{
         timeSrc = 'img/night.svg'
-    }
-    time.setAttribute('src', timeSrc);
+    }*/
+    time.setAttribute('src', timeSrc); 
 
     //Remove the d-none class if present
 
@@ -67,4 +68,12 @@ cityForm.addEventListener('submit', e =>{
     .then(data =>  updateUI(data))
     .catch(err => console.log(err))
 
-})
+    localStorage.setItem('city', city);
+
+});
+
+if(localStorage.getItem('city')){
+    updateCity(localStorage.getItem('city'))
+    .then(data => updateUI(data))
+    .catch(err => console.log(err));
+}
